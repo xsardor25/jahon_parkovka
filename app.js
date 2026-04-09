@@ -234,7 +234,7 @@ function renderMap() {
         <span class="px-3 py-2 rounded-xl text-sm font-semibold ${meta.badge}">${meta.title}</span>
       </div>
 
-      <img src="${spot.image}" alt="${spot.label}" class="mt-4 w-full h-28 object-cover rounded-2xl border border-slate-700" />
+      <img src="${spot.image}" alt="${spot.label}" class="mt-4 w-full h-44 object-cover rounded-2xl border border-slate-700" />
 
       <div class="relative z-10 mt-4 flex items-center justify-between gap-3 text-sm text-slate-300">
         <span>${spot.device}</span>
