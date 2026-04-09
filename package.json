@@ -1,0 +1,10 @@
+{
+  "name": "smart-parking-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Smart parking demo with Tailwind + HTML + JS + localStorage",
+  "scripts": {
+    "start": "npx --yes serve . -l 5500",
+    "check": "node --check app.js"
+  }
+}
