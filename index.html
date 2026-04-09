@@ -1,11 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Parking - Qurilma va Ilova</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    
+<body class="bg-slate-100 text-slate-900">
+  <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
+    <header class="bg-white rounded-2xl shadow p-5">
+      <h1 class="text-2xl md:text-3xl font-bold">Smart Parking Demo</h1>
+      <p class="text-slate-600 mt-2">LED holatlar: <span class="text-green-600 font-semibold">Yashil = bo'sh</span>, <span class="text-yellow-600 font-semibold">Sariq = bron qilingan</span>, <span class="text-red-600 font-semibold">Qizil = band</span>.</p>
+      <p class="text-sm text-slate-500 mt-2">Ma'lumotlar brauzer xotirasida saqlanadi (localStorage), localhostda qayta ochsangiz ham saqlanib qoladi.</p>
+    </header>
+
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <article class="bg-white rounded-2xl shadow p-4"><p class="text-sm text-slate-500">Bo'sh</p><p id="kpiEmpty" class="text-2xl font-bold text-green-600">0</p></article>
+      <article class="bg-white rounded-2xl shadow p-4"><p class="text-sm text-slate-500">Bron</p><p id="kpiBooked" class="text-2xl font-bold text-yellow-600">0</p></article>
+      <article class="bg-white rounded-2xl shadow p-4"><p class="text-sm text-slate-500">Band</p><p id="kpiOccupied" class="text-2xl font-bold text-red-600">0</p></article>
+      <article class="bg-white rounded-2xl shadow p-4"><p class="text-sm text-slate-500">Jarima</p><p id="kpiFines" class="text-2xl font-bold text-slate-900">0</p></article>
+    </section>
+
+    <section class="grid xl:grid-cols-3 gap-6">
+      <div class="xl:col-span-2 bg-white rounded-2xl shadow p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-semibold text-lg">Qurilma paneli (4 ta joy)</h2>
+          <button id="resetAll" class="px-3 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-sm">Tozalash</button>
+        </div>
+        <div id="slotsGrid" class="grid sm:grid-cols-2 gap-4"></div>
+      </div>
+
+      <aside class="bg-slate-900 rounded-[2.2rem] p-2 shadow-xl max-w-sm mx-auto w-full">
+        <div class="bg-white rounded-[1.8rem] min-h-[680px] overflow-hidden relative">
+          <div class="w-28 h-5 rounded-b-xl bg-slate-900 absolute left-1/2 -translate-x-1/2"></div>
+          <div class="pt-9 px-4 pb-4 space-y-4">
+            <h2 class="font-bold text-center">Telefon ilovasi</h2>
+
+            <div class="rounded-xl border p-3 bg-slate-50 space-y-2">
+              <p class="text-xs text-slate-500">1-qadam: Joy qidirish (Yandex Mapga o'xshash demo)</p>
+              <label for="searchInput" class="text-xs text-slate-600">Joy nomi</label>
+              <div class="flex gap-2">
+                <input id="searchInput" class="flex-1 border rounded-lg px-2 py-2 text-sm" placeholder="Masalan: Chilonzor" />
+                <button id="searchBtn" class="px-3 py-2 text-sm rounded-lg bg-indigo-600 text-white">Qidir</button>
+              </div>
+              <div id="mapPoints" class="grid grid-cols-2 gap-2"></div>
+              <p id="selectedLocationText" class="text-xs text-slate-700">Tanlangan joy: yo'q</p>
+            </div>
+
+            <form id="bookingForm" class="rounded-xl border p-3 space-y-2">
+              <p class="text-xs text-slate-500">2-qadam: Joyni bron qilish</p>
+              <label for="driverName" class="text-xs text-slate-600">Haydovchi ismi</label>
+              <input id="driverName" required class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Ism" />
+              <label for="carNumber" class="text-xs text-slate-600">Avto raqami</label>
+              <input id="carNumber" required class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="01A123BC" />
+              <label for="slotSelect" class="text-xs text-slate-600">Parkovka joyi</label>
+              <select id="slotSelect" class="w-full border rounded-lg px-3 py-2 text-sm"></select>
+              <button class="w-full py-2 rounded-lg bg-blue-600 text-white text-sm">Bron qilish</button>
+            </form>
+
+            <div class="rounded-xl border p-3">
+              <p class="text-xs text-slate-500 mb-2">3-qadam: Faol bronlar</p>
+              <div id="bookingsList" class="space-y-2 max-h-44 overflow-auto"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-6">
+      <article class="bg-white rounded-2xl shadow p-4">
+        <h3 class="font-semibold mb-2">Tizim qanday ishlaydi?</h3>
+        <ol class="text-sm text-slate-700 space-y-2 list-decimal pl-4">
+          <li>Ilovada lokatsiya tanlanadi va bo'sh joy bron qilinadi.</li>
+          <li>Bron qilinganda qurilmada sariq LED yonadi.</li>
+          <li>Mashina kelib joylashganda holat qizilga o'tadi.</li>
+          <li>Mashina chiqib ketsa holat yana yashil bo'ladi.</li>
+          <li>Ruxsatsiz qo'yilsa tizim jarima yozadi.</li>
+        </ol>
+        <a class="inline-block mt-3 text-sm text-indigo-700 underline" href="https://yandex.uz/maps" target="_blank" rel="noreferrer">Yandex Mapsni ochish</a>
+      </article>
+
+      <article class="bg-white rounded-2xl shadow p-4">
+        <h3 class="font-semibold mb-2">Jarimalar tarixi</h3>
+        <div id="finesList" class="space-y-2 max-h-64 overflow-auto"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
