@@ -36,7 +36,7 @@
         <h1 class="text-4xl md:text-5xl font-black mt-2 leading-tight">Parkovka joyini masofadan band qilish tizimi</h1>
         <p class="text-slate-300 text-lg mt-4 leading-8">
           LED holatlari: <span class="text-green-400 font-bold">Yashil</span> - bo'sh,
-          <span class="text-yellow-400 font-bold">Sariq</span> - bron,
+          <span class="text-yellow-400 font-bold">Sariq</span> - bron qilingan, lekin mashina hali kelmagan,
           <span class="text-red-400 font-bold">Qizil</span> - band.
           Ruxsatsiz park bo'lsa tizim avtomatik jarima yozadi.
           Barcha ma'lumot localStorage'da saqlanadi.
@@ -61,6 +61,11 @@
             <div>
               <h2 class="text-2xl font-black">Interaktiv parkovka</h2>
               <p class="text-slate-400 mt-1">Joyni tanlang va ilova orqali boshqaring.</p>
+              <div class="mt-2 flex flex-wrap gap-2 text-xs">
+                <span class="px-2 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-300">Yashil = bo'sh</span>
+                <span class="px-2 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300">Sariq = bron, hali kelmagan</span>
+                <span class="px-2 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-300">Qizil = band</span>
+              </div>
             </div>
             <div class="flex flex-wrap gap-2">
               <button data-filter="all" class="filter-btn px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">Hammasi</button>

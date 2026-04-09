@@ -139,6 +139,7 @@ function statusMeta(status) {
   if (status === "empty") {
     return {
       title: "Bo'sh",
+      desc: "Yashil: joy bo'sh, bron qilish mumkin",
       badge: "bg-green-500/15 text-green-400 border border-green-500/20",
       dot: "bg-green-400",
       led: "bg-green-400 shadow-[0_0_28px_rgba(74,222,128,.92)]",
@@ -149,6 +150,7 @@ function statusMeta(status) {
   if (status === "reserved") {
     return {
       title: "Bron qilingan",
+      desc: "Sariq: bron qilingan, lekin mashina hali kelmagan",
       badge: "bg-yellow-400/15 text-yellow-300 border border-yellow-400/20",
       dot: "bg-yellow-400",
       led: "bg-yellow-400 shadow-[0_0_28px_rgba(250,204,21,.92)]",
@@ -159,6 +161,7 @@ function statusMeta(status) {
   if (status === "occupied") {
     return {
       title: "Band",
+      desc: "Qizil: joyda mashina bor, band holat",
       badge: "bg-red-500/15 text-red-400 border border-red-500/20",
       dot: "bg-red-500",
       led: "bg-red-500 shadow-[0_0_28px_rgba(239,68,68,.94)]",
@@ -168,6 +171,7 @@ function statusMeta(status) {
   }
   return {
     title: "Ruxsatsiz park",
+    desc: "Oq: ruxsatsiz park aniqlandi, jarima yoziladi",
     badge: "bg-slate-100/10 text-slate-100 border border-slate-100/20",
     dot: "bg-slate-100",
     led: "bg-slate-100 shadow-[0_0_24px_rgba(255,255,255,.75)]",
@@ -235,6 +239,11 @@ function renderMap() {
       </div>
 
       <img src="${spot.image}" alt="${spot.label}" class="mt-4 w-full h-44 object-cover rounded-2xl border border-slate-700" />
+
+      <div class="mt-3 rounded-xl border border-slate-700/70 bg-slate-950/60 px-3 py-2 text-xs text-slate-200 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full ${meta.dot}"></span>
+        <span>${meta.desc}</span>
+      </div>
 
       <div class="relative z-10 mt-4 flex items-center justify-between gap-3 text-sm text-slate-300">
         <span>${spot.device}</span>
@@ -308,6 +317,7 @@ function renderSelected() {
       <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4">
         <div class="text-slate-400 text-sm">Holat</div>
         <div class="text-2xl font-bold mt-1">${meta.title}</div>
+        <div class="text-xs text-slate-400 mt-2">${meta.desc}</div>
       </div>
       <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4">
         <div class="text-slate-400 text-sm">Qurilma</div>
@@ -321,6 +331,7 @@ function renderSelected() {
       <p><span class="text-slate-500">Joy:</span> ${spot.label}</p>
       <p><span class="text-slate-500">Hudud:</span> ${loc.name}</p>
       <p><span class="text-slate-500">Holat:</span> ${meta.title}</p>
+      <p><span class="text-slate-500">Izoh:</span> ${meta.desc}</p>
       <p><span class="text-slate-500">Raqam:</span> ${spot.plate || "Kiritilmagan"}</p>
     </div>
   `;
